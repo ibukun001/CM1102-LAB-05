@@ -1,0 +1,106 @@
+---
+title: "lab-8"
+author: "ibukun"
+date: "2023-03-23"
+output: html_document
+---
+```{r}
+
+```
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## R Markdown
+
+This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
+
+When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:
+
+```{r cars}
+summary(cars)
+```
+
+## Including Plots
+
+You can also embed plots, for example:
+
+```{r pressure, echo=FALSE}
+plot(pressure)
+```
+
+Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
+```{r}
+import_data<- read.csv("vacancies.csv")
+print(import_data)
+
+library(ggplot2)
+
+```
+#Show the number of Band 2 vacancies with Midwifery as a sub job.a. Create a point chart with total vacancies and vacant for three months or moreb. As well as a line chart with total vacancies and vacant for three months or more, and colour it with the work force region group
+```{r}
+listband <- subset(import_data, AFCBand == "Band 2" & SubJobFamily == "Midwifery")
+print(listband)
+```
+#Identify the list of Band 4 vacancies in the North Workforce region group.a. Generate a histogram for the staff who have been posted in
+
+```{r}
+library(ggplot2)
+ggplot(listband,aes(TotalVacancies, Vacant3MonthsOrMore)) + geom_point()
+
+```
+
+#Calculate the total number of vacancies in each band by listing the number of vacancies in Bands 2 through 7a. Create a pie chart of the total number of vacancies in all the bands.
+```{r}
+w <- subset(import_data, WorkforceRegionGrouping =="West")
+e <- subset(import_data, WorkforceRegionGrouping =="East")
+n <- subset(import_data, WorkforceRegionGrouping =="North")
+sco <- subset(import_data, WorkforceRegionGrouping =="Scotland")
+nb <- subset(import_data, WorkforceRegionGrouping =="National Bodies and Special Health Boards")
+
+totw <- sum(w$TotalVacancies)
+tote <- sum(e$TotalVacancies)
+totn <- sum(n$TotalVacancies)
+totsco <- sum(sco$TotalVacancies)
+totnb <- sum(nb$TotalVacancies)
+
+labelreg <- c ("West", "East", "North", "Scotland", "National Bodies")
+pie(c(totw, tote, totsco, totnb), labels = labelreg)
+```
+#List the number of available positions in the Mental Health category. a. Make a histogram to show the percentage of jobs that are being reviewed.
+```{r}
+ur <- subset (import_data, SubJobFamily == "Mental health")
+print(ur)
+hist(ur$PostsUnderReview, labels = TRUE, col = "lightgreen")
+```
+#Choose the number of openings in the Other Category. a. Create a histogram to show how many jobs are being reviewed, with a red background and a blue border
+```{r}
+other <- subset(import_data, SubJobFamily == "other")
+hist(other$PostsUnderReview, col = "red", border = "blue")
+```
+#Display the number of staff in positions whose range is between 2000 and 1000, 1000 and 500, 500 and 100, and 100-0. a. Create a boxplot to show the percentage of blue Total Vacancies in each of the above-mentioned ranges
+```{r}
+staffinpost <-subset(import_data, StaffInPost > 1000 & StaffInPost < 2000)
+staffinpost1 <-subset(import_data, StaffInPost > 500 & StaffInPost < 1000)
+staffinpost2 <-subset(import_data, StaffInPost > 100 & StaffInPost < 500)
+staffinpost3 <-subset(import_data, StaffInPost > 0 & StaffInPost < 100)
+boxplot(staffinpost$TotalVacancies, staffinpost1$TotalVacancies, staffinpost2$TotalVacancies, staffinpost3$TotalVacancies)
+```
+#Display the number of staff in positions greater than 150 and the number of open positions less than 150. a. Make a boxplot to show the percentage of the above-mentioned ranges
+
+```{r}
+tv <- subset (import_data,StaffInPost> 150 & TotalVacancies< 150)
+boxplot(tv$StaffInPost, tv$TotalVacancies)
+```
+#Display the number with total vacancies greater than zero based on HB values equal to SB0806 and S08000029. a. Make a boxplot showing the percentage of Staff in each case.
+```{r}
+hb <- subset(import_data,TotalVacancies >0 & HB == "SB0806")
+hb1<- subset(import_data, TotalVacancies >0 & HB == "S08000029")
+boxplot(hb$StaffInPost, hb1$StaffInPost)
+```
+#isplay the number of open positions in the Paediatric, Adult, Learning Disabilities, and School Nursing categories.a. Make a boxplot that show the percentage of Total Vacancies in each category
+```{r}
+job <- subset(import_data, SubJobFamily == "Paediatric")
+job2 <- subset(import_data, 
+```
